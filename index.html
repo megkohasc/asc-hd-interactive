@@ -39,6 +39,13 @@
   <div class="legend">
     <h4>Sales Reps</h4>
     <ul id="county-list" style="margin: 0; padding-left: 20px;"></ul>
+    <! -- changes start here -->
+    <hr>
+     <div id="store-list">
+    <strong>Stores</strong>
+    <ul id="stores" style="margin: 5px 0 0; padding-left: 20px;"></ul>
+  </div>
+    <! -- changes end here -->
   </div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -224,15 +231,27 @@
     const allMarkers = [];
 
     function showCities(county) {
+      //clear markers
       allMarkers.forEach(marker => map.removeLayer(marker));
       allMarkers.length = 0;
 
+      //clear store list
+      const storeUl = document.getElementById('stores');
+      storeUl.innerHTML = '';
+      
       const cities = countyCityData[county] || [];
       if (cities.length === 0) return;
 
       const group = [];
 
       cities.forEach(city => {
+
+        // Add store name to list
+        const storeLi = document.createElement('li');
+        storeLi.textContent = city.name;
+        storeUl.appendChild(storeLi);
+
+        //marker icon
         const icon = L.divIcon({
           className: '',
           html: `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='${city.color}' stroke='black' stroke-width='2'/></svg>`
